@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sankofa Weather Wisdom - NASA Powered</title>
+    <style>
+        :root {
+            --gh-red: #CE1126;
+            --gh-gold: #FCD116; 
+            --gh-green: #006B3F;
+            --gh-black: #000000;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8f4f8 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--gh-red) 0%, var(--gh-green) 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .nasa-badge {
+            background: #0b3d91;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+            border: 2px solid white;
+        }
+        
+        .cultural-card {
+            background: white;
+            border-left: 5px solid var(--gh-red);
+            padding: 25px;
+            margin: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .event-btn {
+            background: var(--gh-gold);
+            color: var(--gh-black);
+            border: none;
+            padding: 15px 20px;
+            margin: 8px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 180px;
+        }
+        
+        .event-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .location-btn {
+            background: var(--gh-green);
+            color: white;
+        }
+        
+        .compound-alert {
+            background: #fff3cd;
+            border: 2px solid #ffeaa7;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 5px solid #f39c12;
+        }
+        
+        .story-section {
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFF0F0 100%);
+            padding: 25px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .data-section {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 5px solid #0b3d91;
+        }
+        
+        .risk-meter {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .risk-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        
+        .low-risk { background: #28a745; }
+        .medium-risk { background: #ffc107; }
+        .high-risk { background: #dc3545; }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        h2 {
+            color: var(--gh-red);
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        h3 {
+            color: var(--gh-green);
+            margin-bottom: 15px;
+        }
+        
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .proverb {
+            font-style: italic;
+            color: #666;
+            text-align: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid var(--gh-gold);
+        }
+        
+        .back-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>🌧️ Sankofa Weather Wisdom</h1>
+            <div class="nasa-badge">🚀 NASA POWERED + GMET INTEGRATION</div>
+            <p style="margin-top: 15px; opacity: 0.9;">Bridging NASA Data with Ghanaian Climate Stories</p>
+        </div>
+
+        <!-- Main App Container -->
+        <div id="app">
+            <!-- Step 1: Location Selection -->
+            <div id="step-location" class="cultural-card fade-in">
+                <h2>📍 Choose Your Location in Ghana</h2>
+                <p>Select where you're planning your event:</p>
+                <div class="btn-group">
+                    <button class="event-btn location-btn" onclick="selectLocation(5.6037, -0.1870, 'Accra')">
+                        🏙️ Accra
+                    </button>
+                    <button class="event-btn location-btn" onclick="selectLocation(6.7000, -1.6167, 'Kumasi')">
+                        🌳 Kumasi
+                    </button>
+                    <button class="event-btn location-btn" onclick="selectLocation(4.9344, -1.7137, 'Takoradi')">
+                        🌊 Takoradi
+                    </button>
+                    <button class="event-btn location-btn" onclick="selectLocation(9.4000, -0.8500, 'Tamale')">
+                        🏜️ Tamale
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Month Selection -->
+            <div id="step-month" class="cultural-card hidden">
+                <h2>📅 Choose Time Period</h2>
+                <p>When are you planning your event?</p>
+                <div class="btn-group">
+                    <button class="event-btn" onclick="selectMonth('January')">
+                        ☀️ January<br><small>Dry Season</small>
+                    </button>
+                    <button class="event-btn" onclick="selectMonth('April')">
+                        🌦️ April<br><small>Minor Rains</small>
+                    </button>
+                    <button class="event-btn" onclick="selectMonth('July')">
+                        🌧️ July<br><small>Major Rains</small>
+                    </button>
+                    <button class="event-btn" onclick="selectMonth('October')">
+                        🌤️ October<br><small>Harvest Time</small>
+                    </button>
+                </div>
+                <button class="back-btn" onclick="goBack('step-location')">← Back</button>
+            </div>
+
+            <!-- Step 3: Event Selection -->
+            <div id="step-event" class="cultural-card hidden">
+                <h2>🎉 What Are You Planning?</h2>
+                <p>Choose your event type for personalized advice:</p>
+                <div class="btn-group">
+                    <button class="event-btn" onclick="selectEvent('wedding')">
+                        👰 Agyapadeɛ<br><small>Wedding</small>
+                    </button>
+                    <button class="event-btn" onclick="selectEvent('farming')">
+                        🌱 Afu So<br><small>Farming</small>
+                    </button>
+                    <button class="event-btn" onclick="selectEvent('funeral')">
+                        ⚰️ Awieɛ<br><small>Funeral</small>
+                    </button>
+                    <button class="event-btn" onclick="selectEvent('festival')">
+                        🎪 Festival<br><small>Celebration</small>
+                    </button>
+                </div>
+                <button class="back-btn" onclick="goBack('step-month')">← Back</button>
+            </div>
+
+            <!-- Results Section -->
+            <div id="step-results" class="cultural-card hidden">
+                <div id="results-content">
+                    <!-- Results will be dynamically inserted here -->
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="event-btn location-btn" onclick="resetApp()">
+                        🔄 Start New Analysis
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Current user selections
+        let userSelections = {
+            location: null,
+            month: null,
+            event: null
+        };
+
+        // Ghana weather data with compound analysis
+        const ghanaWeatherData = {
+            "Accra": {
+                "January": {
+                    individual_risks: { heat: 25, rain: 8, wind: 35, humidity: 65 },
+                    compound_risks: { heat_humidity: 12, rain_wind: 3 },
+                    temp_avg: 31,
+                    story: "Harmattan winds bring cool, dry air from the Sahara - perfect for outdoor celebrations.",
+                    trend: "Temperatures increased 1.2°C since 1990"
+                },
+                "April": {
+                    individual_risks: { heat: 45, rain: 55, wind: 25, humidity: 75 },
+                    compound_risks: { heat_humidity: 28, rain_wind: 18 },
+                    temp_avg: 32,
+                    story: "The rains begin their gentle dance with the sun - plan for both sunshine and showers.",
+                    trend: "Rainfall patterns becoming more intense"
+                },
+                "July": {
+                    individual_risks: { heat: 35, rain: 75, wind: 40, humidity: 85 },
+                    compound_risks: { heat_humidity: 42, rain_wind: 35 },
+                    temp_avg: 28,
+                    story: "Heavy rains visit frequently, like ancestral drums in the distance - carry your umbrella with pride.",
+                    trend: "More frequent heavy rainfall events"
+                },
+                "October": {
+                    individual_risks: { heat: 40, rain: 65, wind: 30, humidity: 80 },
+                    compound_risks: { heat_humidity: 35, rain_wind: 22 },
+                    temp_avg: 29,
+                    story: "Rains begin to retreat but still whisper in the afternoon - hope for sun but prepare for rain.",
+                    trend: "Extended rainy season observed"
+                }
+            },
+            "Kumasi": {
+                "January": {
+                    individual_risks: { heat: 30, rain: 15, wind: 20, humidity: 70 },
+                    compound_risks: { heat_humidity: 18, rain_wind: 5 },
+                    temp_avg: 32,
+                    story: "The Garden City blooms under gentle sun - ideal for traditional ceremonies and gatherings.",
+                    trend: "Warmer nights becoming more common"
+                },
+                "April": {
+                    individual_risks: { heat: 50, rain: 70, wind: 25, humidity: 80 },
+                    compound_risks: { heat_humidity: 45, rain_wind: 20 },
+                    temp_avg: 31,
+                    story: "Rain and sun share the sky in equal measure - the ancestors call for balanced preparations.",
+                    trend: "Increasing humidity levels"
+                },
+                "July": {
+                    individual_risks: { heat: 40, rain: 85, wind: 35, humidity: 90 },
+                    compound_risks: { heat_humidity: 55, rain_wind: 42 },
+                    temp_avg: 27,
+                    story: "Consistent rains water the forests - secure your canopies and celebrate the abundance.",
+                    trend: "Stronger wind patterns during storms"
+                },
+                "October": {
+                    individual_risks: { heat: 45, rain: 75, wind: 28, humidity: 85 },
+                    compound_risks: { heat_humidity: 48, rain_wind: 25 },
+                    temp_avg: 29,
+                    story: "The rains persist but with glorious moments of sunshine - plan for both realities.",
+                    trend: "Later onset of dry season"
+                }
+            },
+            "Takoradi": {
+                "January": {
+                    individual_risks: { heat: 35, rain: 20, wind: 45, humidity: 80 },
+                    compound_risks: { heat_humidity: 25, rain_wind: 12 },
+                    temp_avg: 30,
+                    story: "Ocean breezes moderate the heat - perfect for coastal celebrations and gatherings.",
+                    trend: "Sea breeze patterns strengthening"
+                },
+                "April": {
+                    individual_risks: { heat: 55, rain: 60, wind: 50, humidity: 85 },
+                    compound_risks: { heat_humidity: 52, rain_wind: 35 },
+                    temp_avg: 31,
+                    story: "The ocean and sky converse through rain and wind - listen carefully to both.",
+                    trend: "More intense coastal storms"
+                }
+            },
+            "Tamale": {
+                "January": {
+                    individual_risks: { heat: 60, rain: 2, wind: 40, humidity: 35 },
+                    compound_risks: { heat_humidity: 15, rain_wind: 1 },
+                    temp_avg: 35,
+                    story: "The hot, dry Harmattan rules the land - water and shade become precious blessings.",
+                    trend: "Increasing desertification influence"
+                },
+                "April": {
+                    individual_risks: { heat: 70, rain: 25, wind: 35, humidity: 55 },
+                    compound_risks: { heat_humidity: 45, rain_wind: 10 },
+                    temp_avg: 38,
+                    story: "Extreme heat dominates with occasional rain relief - plan around the sun's intensity.",
+                    trend: "Rising maximum temperatures"
+                }
+            }
+        };
+
+        // Event-specific advice
+        const eventAdvice = {
+            wedding: {
+                low_risk: "The ancestors smile on your union! Perfect weather for your traditional rites and celebration.",
+                medium_risk: "Your special day walks between challenges and blessings. Have a backup plan ready.",
+                high_risk: "The skies may test your commitment. Consider indoor options or secure tent arrangements.",
+                compound_heat_humidity: "Provide cooling stations, plenty of water, and shaded areas for elderly guests.",
+                compound_rain_wind: "Secure decorations and tents properly. Have indoor ceremony backup ready."
+            },
+            farming: {
+                low_risk: "Excellent planting conditions. The earth is ready to receive your seeds with blessing.",
+                medium_risk: "Mixed signals from the sky. Plant with caution and watch the clouds carefully.",
+                high_risk: "Challenging conditions ahead. Wait for better weather patterns if possible.",
+                compound_heat_humidity: "Water crops early morning or late evening to reduce evaporation loss.",
+                compound_rain_wind: "Delay planting if possible. New seeds may wash away in heavy rain with wind."
+            },
+            funeral: {
+                low_risk: "Respectful conditions for honoring the departed. The weather supports peaceful ceremonies.",
+                medium_risk: "The weather reflects life's uncertainties. Prepare for both sun and rain in your arrangements.",
+                high_risk: "Challenging conditions for gatherings. Ensure covered pathways and seating areas.",
+                compound_heat_humidity: "Provide ample shaded seating and water stations for elderly mourners.",
+                compound_rain_wind: "Secure canopies and have indoor space ready for the procession."
+            },
+            festival: {
+                low_risk: "Perfect festival weather! The community can gather and celebrate in comfort.",
+                medium_risk: "The festival spirit will shine through, but have some weather preparations ready.",
+                high_risk: "Community resilience will be tested. Plan robust shelter and contingency arrangements.",
+                compound_heat_humidity: "Set up multiple water stations and cooling areas for participants.",
+                compound_rain_wind: "Secure stages, decorations, and food stalls against weather challenges."
+            }
+        };
+
+        // Ghanaian proverbs database
+        const proverbs = [
+            "When the rain falls on the leopard, it falls on the leopard's skin. - Be prepared for what comes",
+            "The fool breaks a proverb; the wise mends it. - Learn from weather patterns",
+            "One tree does not make a forest. - Your event is part of larger climate patterns",
+            "Rain does not fall on one roof alone. - Weather challenges affect everyone",
+            "The sun will shine on those who stand before it shines on those who kneel under them. - Plan ahead wisely"
+        ];
+
+        // Navigation functions
+        function selectLocation(lat, lon, name) {
+            userSelections.location = { lat, lon, name };
+            showStep('step-month');
+        }
+
+        function selectMonth(month) {
+            userSelections.month = month;
+            showStep('step-event');
+        }
+
+        function selectEvent(event) {
+            userSelections.event = event;
+            showStep('step-results');
+            generateResults();
+        }
+
+        function goBack(stepId) {
+            showStep(stepId);
+        }
+
+        function resetApp() {
+            userSelections = { location: null, month: null, event: null };
+            showStep('step-location');
+        }
+
+        function showStep(stepId) {
+            // Hide all steps
+            document.querySelectorAll('.cultural-card').forEach(step => {
+                step.classList.add('hidden');
+                step.classList.remove('fade-in');
+            });
+            
+            // Show target step
+            const targetStep = document.getElementById(stepId);
+            targetStep.classList.remove('hidden');
+            setTimeout(() => targetStep.classList.add('fade-in'), 50);
+        }
+
+        // Results generation
+        function generateResults() {
+            const { location, month, event } = userSelections;
+            const data = ghanaWeatherData[location.name][month];
+            
+            // Calculate overall risk
+            const totalRisk = (data.compound_risks.heat_humidity + data.compound_risks.rain_wind) / 2;
+            let riskLevel = 'low';
+            let riskText = 'Low Risk';
+            
+            if (totalRisk > 40) {
+                riskLevel = 'high';
+                riskText = 'High Risk';
+            } else if (totalRisk > 20) {
+                riskLevel = 'medium';
+                riskText = 'Medium Risk';
+            }
+
+            // Get random proverb
+            const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
+
+            // Generate compound alerts
+            const compoundAlerts = [];
+            if (data.compound_risks.heat_humidity > 30) {
+                compoundAlerts.push({
+                    type: 'heat_humidity',
+                    risk: data.compound_risks.heat_humidity,
+                    advice: eventAdvice[event].compound_heat_humidity
+                });
+            }
+            
+            if (data.compound_risks.rain_wind > 20) {
+                compoundAlerts.push({
+                    type: 'rain_wind', 
+                    risk: data.compound_risks.rain_wind,
+                    advice: eventAdvice[event].compound_rain_wind
+                });
+            }
+
+            // Build results HTML
+            let resultsHTML = `
+                <h2>📖 The Elder's Wisdom for Your ${event.charAt(0).toUpperCase() + event.slice(1)}</h2>
+                
+                <div style="background: linear-gradient(135deg, ${riskLevel === 'high' ? '#ff6b6b' : riskLevel === 'medium' ? '#ffd93d' : '#6bcf7f'}, white); padding: 20px; border-radius: 10px; margin: 15px 0;">
+                    <h3>📍 ${location.name} • 📅 ${month} • 🎉 ${event.charAt(0).toUpperCase() + event.slice(1)}</h3>
+                    <div style="text-align: center; margin: 15px 0;">
+                        <div style="font-size: 2em; margin: 10px 0;">${riskLevel === 'high' ? '⚠️' : riskLevel === 'medium' ? '🔶' : '✅'}</div>
+                        <div style="font-size: 1.2em; font-weight: bold;">Overall Risk: ${riskText}</div>
+                    </div>
+                </div>
+
+                <div class="story-section">
+                    <h3>🌍 NASA Climate Story</h3>
+                    <p>"${data.story}"</p>
+                    <div class="proverb">"${randomProverb}"</div>
+                    <p><strong>Elder's Advice:</strong> ${eventAdvice[event][riskLevel + '_risk']}</p>
+                </div>
+
+                ${compoundAlerts.length > 0 ? `
+                <div class="compound-alert">
+                    <h3>⚡ Compound Extreme Alerts</h3>
+                    ${compoundAlerts.map(alert => `
+                        <div style="margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.7); border-radius: 8px;">
+                            <strong>${alert.type === 'heat_humidity' ? '🔥 Extreme Heat + Humidity' : '💨 Heavy Rain + Strong Winds'}:</strong>
+                            <div class="risk-meter">
+                                <div class="risk-fill ${alert.risk > 40 ? 'high-risk' : alert.risk > 20 ? 'medium-risk' : 'low-risk'}" 
+                                     style="width: ${alert.risk}%"></div>
+                            </div>
+                            <div>Probability: <strong>${alert.risk}%</strong></div>
+                            <p style="margin-top: 10px;"><strong>Action:</strong> ${alert.advice}</p>
+                        </div>
+                    `).join('')}
+                </div>
+                ` : ''}
+
+                <div class="data-section">
+                    <h3>🔬 NASA Data Analysis</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0;">
+                        <div>
+                            <h4>Individual Risks</h4>
+                            <div class="risk-meter"><div class="risk-fill ${data.individual_risks.heat > 50 ? 'high-risk' : data.individual_risks.heat > 25 ? 'medium-risk' : 'low-risk'}" style="width: ${data.individual_risks.heat}%"></div></div>
+                            <div>Extreme Heat: ${data.individual_risks.heat}%</div>
+                            
+                            <div class="risk-meter"><div class="risk-fill ${data.individual_risks.rain > 50 ? 'high-risk' : data.individual_risks.rain > 25 ? 'medium-risk' : 'low-risk'}" style="width: ${data.individual_risks.rain}%"></div></div>
+                            <div>Heavy Rain: ${data.individual_risks.rain}%</div>
+                        </div>
+                        <div>
+                            <h4>Compound Risks</h4>
+                            <div class="risk-meter"><div class="risk-fill ${data.compound_risks.heat_humidity > 30 ? 'high-risk' : data.compound_risks.heat_humidity > 15 ? 'medium-risk' : 'low-risk'}" style="width: ${data.compound_risks.heat_humidity}%"></div></div>
+                            <div>Heat + Humidity: ${data.compound_risks.heat_humidity}%</div>
+                            
+                            <div class="risk-meter"><div class="risk-fill ${data.compound_risks.rain_wind > 20 ? 'high-risk' : data.compound_risks.rain_wind > 10 ? 'medium-risk' : 'low-risk'}" style="width: ${data.compound_risks.rain_wind}%"></div></div>
+                            <div>Rain + Wind: ${data.compound_risks.rain_wind}%</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 15px; padding: 15px; background: white; border-radius: 8px;">
+                        <h4>📈 Climate Context</h4>
+                        <p>Average Temperature: <strong>${data.temp_avg}°C</strong></p>
+                        <p>Trend: <strong>${data.trend}</strong></p>
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                            <strong>Data Sources:</strong> NASA POWER API, GPM IMERG, 30-year historical analysis
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('results-content').innerHTML = resultsHTML;
+        }
+
+        // Initialize app
+        showStep('step-location');
+    </script>
+</body>
+</html>
