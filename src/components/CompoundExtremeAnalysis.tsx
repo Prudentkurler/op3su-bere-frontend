@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { TrendingUp, AlertTriangle } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart } from 'recharts'
+import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts'
 import { ExtremeAnalysis } from '@/store/weather'
 
 interface CompoundExtremeAnalysisProps {
@@ -12,7 +12,7 @@ interface CompoundExtremeAnalysisProps {
 
 export default function CompoundExtremeAnalysis({ analysis }: CompoundExtremeAnalysisProps) {
   // Generate probability distribution data
-  const distributionData = analysis.map((item, index) => ({
+  const distributionData = analysis.map((item) => ({
     condition: item.condition,
     probability: item.probability,
     threshold: item.threshold,
@@ -126,7 +126,7 @@ export default function CompoundExtremeAnalysis({ analysis }: CompoundExtremeAna
                     backdropFilter: 'blur(12px)',
                   }}
                   labelStyle={{ color: '#f3f4f6' }}
-                  formatter={(value: any) => [`${(value * 100).toFixed(1)}%`, 'Probability']}
+                  formatter={(value: number) => [`${(value * 100).toFixed(1)}%`, 'Probability']}
                 />
                 <Area
                   type="monotone"

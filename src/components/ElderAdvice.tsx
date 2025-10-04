@@ -72,7 +72,7 @@ export default function ElderAdvice({ advice, isLoading }: ElderAdviceProps) {
             >
               <Sparkles className="h-6 w-6 text-violet-500" />
             </motion.div>
-            Elder's Wisdom
+            Elder&apos;s Wisdom
           </CardTitle>
           <CardDescription>
             AI-generated context-aware advice for your weather conditions

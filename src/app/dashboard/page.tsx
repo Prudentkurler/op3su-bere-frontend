@@ -88,7 +88,7 @@ export default function Dashboard() {
             const randomNoise = (Math.random() - 0.5) * 5
             return Math.max(0, baseWind + dailyVariation + randomNoise)
           }),
-          rainfall: Array.from({ length: 14 }, (_, i) => {
+          rainfall: Array.from({ length: 14 }, () => {
             const randomFactor = Math.random()
             return randomFactor > 0.6 ? baseRain * randomFactor : Math.random() * 2
           }),
@@ -163,6 +163,7 @@ export default function Dashboard() {
     }
 
     fetchWeatherData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query])
 
   const generateElderAdvice = async (location: string, purpose: string, conditions: string[]) => {

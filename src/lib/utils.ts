@@ -20,7 +20,7 @@ export function getDayOfYear(date: Date): number {
   return Math.floor(diff / oneDay)
 }
 
-export function downloadJSON(data: any, filename: string) {
+export function downloadJSON(data: Record<string, unknown>, filename: string) {
   const json = JSON.stringify(data, null, 2)
   const blob = new Blob([json], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
@@ -33,13 +33,13 @@ export function downloadJSON(data: any, filename: string) {
   URL.revokeObjectURL(url)
 }
 
-export function downloadCSV(data: any[], filename: string) {
+export function downloadCSV(data: Record<string, unknown>[], filename: string) {
   if (!data || data.length === 0) return
   
   const headers = Object.keys(data[0])
   const csvContent = [
     headers.join(','),
-    ...data.map(row => headers.map(header => row[header]).join(','))
+    ...data.map(row => headers.map(header => String(row[header])).join(','))
   ].join('\n')
   
   const blob = new Blob([csvContent], { type: 'text/csv' })

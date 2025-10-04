@@ -39,7 +39,6 @@ export default function WeatherInputForm() {
   const [purpose, setPurpose] = useState('')
   const [selectedConditions, setSelectedConditions] = useState<WeatherCondition[]>([])
   const [selectedDate, setSelectedDate] = useState('')
-  const [showLocationSuggestions, setShowLocationSuggestions] = useState(false)
 
   const handleConditionToggle = (condition: WeatherCondition) => {
     setSelectedConditions(prev =>
@@ -117,12 +116,7 @@ export default function WeatherInputForm() {
                   id="location"
                   placeholder="Enter city or coordinates..."
                   value={location}
-                  onChange={(e) => {
-                    setLocation(e.target.value)
-                    setShowLocationSuggestions(e.target.value.length > 2)
-                  }}
-                  onFocus={() => setShowLocationSuggestions(location.length > 2)}
-                  onBlur={() => setTimeout(() => setShowLocationSuggestions(false), 200)}
+                  onChange={(e) => setLocation(e.target.value)}
                   className="glow-border"
                 />
                 {/* Location suggestions would go here */}

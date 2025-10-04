@@ -66,7 +66,7 @@ export default function SummarySection({ query, weatherData }: SummarySectionPro
           <div className="p-4 rounded-lg bg-white/5 border border-white/10">
             <h4 className="font-semibold text-lg mb-3 text-gray-200">Outlook for {formatDate(query.date)}</h4>
             <p className="text-gray-300 leading-relaxed mb-4">
-              Based on NASA Earth observation data, we've analyzed extreme weather patterns for <strong className="text-blue-400">{query.location}</strong> on{' '}
+              Based on NASA Earth observation data, we&apos;ve analyzed extreme weather patterns for <strong className="text-blue-400">{query.location}</strong> on{' '}
               <strong className="text-violet-400">{formatDate(query.date)}</strong> for your planned activity:{' '}
               <strong className="text-blue-400">{query.purpose}</strong>.
             </p>

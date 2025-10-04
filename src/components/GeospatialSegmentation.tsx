@@ -11,13 +11,15 @@ interface GeospatialSegmentationProps {
   location: string
 }
 
+type MapComponentType = React.ComponentType<{ lat: number; lon: number; location: string }>
+
 export default function GeospatialSegmentation({ lat = 0, lon = 0, location }: GeospatialSegmentationProps) {
-  const [MapComponent, setMapComponent] = useState<any>(null)
+  const [MapComponent, setMapComponent] = useState<MapComponentType | null>(null)
 
   useEffect(() => {
     // Dynamically import map component on client side only
     import('./WeatherMap').then((mod) => {
-      setMapComponent(() => mod.default)
+      setMapComponent(() => mod.default as MapComponentType)
     })
   }, [])
 

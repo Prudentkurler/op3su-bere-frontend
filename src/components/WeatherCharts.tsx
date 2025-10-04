@@ -20,12 +20,25 @@ export default function WeatherCharts({ data }: WeatherChartsProps) {
     humidity: data.humidity[index],
   }))
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  interface TooltipPayload {
+    color: string
+    name: string
+    value: number
+    unit?: string
+  }
+
+  interface CustomTooltipProps {
+    active?: boolean
+    payload?: TooltipPayload[]
+    label?: string
+  }
+
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-gray-900/95 border border-white/20 rounded-xl p-4 backdrop-blur-xl shadow-2xl">
           <p className="text-sm font-semibold text-white mb-2">{label}</p>
-          {payload.map((entry: any, index: number) => (
+          {payload.map((entry, index: number) => (
             <p key={index} className="text-sm flex items-center gap-2" style={{ color: entry.color }}>
               <span className="w-3 h-3 rounded-full" style={{ background: entry.color }}></span>
               <span className="text-gray-400">{entry.name}:</span>
